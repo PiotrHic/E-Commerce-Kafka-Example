@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: Order-Event-Processing-System
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orderdb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8010
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: orderEventLimiter
+      url: /api/orders/events
+      filter-method: servlet
+      rate-limits:
+        - bandwidths:
+            - capacity: 100
+              time: 1
+              unit: minutes
