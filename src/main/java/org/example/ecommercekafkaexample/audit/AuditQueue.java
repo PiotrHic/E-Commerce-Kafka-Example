@@ -10,7 +10,7 @@ public class AuditQueue {
 
     private static final int MAX_QUEUE_SIZE = 10_000;
 
-    private final BlockingQueue<AuditEventEntity> queue =
+    final BlockingQueue<AuditEventEntity> queue =
             new ArrayBlockingQueue<> (MAX_QUEUE_SIZE);
 
     public boolean offer(AuditEventEntity event) {
