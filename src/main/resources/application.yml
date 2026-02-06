@@ -12,6 +12,22 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+    consumer:
+      group-id: order-event-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      max-poll-records: 10
+      properties:
+        spring.json.trusted.packages: "*"
+
 server:
   port: 8010
 
@@ -26,3 +42,8 @@ bucket4j:
             - capacity: 100
               time: 1
               unit: minutes
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
