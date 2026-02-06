@@ -47,3 +47,17 @@ logging:
   level:
     root: INFO
     org.springframework.web: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics
+  endpoint:
+    health:
+      show-details: always
+
+performance:
+  email:
+    throttle-ms: 50
+    max-threads: 5
