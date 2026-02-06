@@ -24,9 +24,9 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      max-poll-records: 10
       properties:
         spring.json.trusted.packages: "*"
+        spring.json.value.default.type: org.example.ordereventprocessingsystem.domain.OrderEvent
 
 server:
   port: 8010
