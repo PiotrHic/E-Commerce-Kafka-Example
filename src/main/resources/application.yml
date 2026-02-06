@@ -42,3 +42,8 @@ bucket4j:
             - capacity: 100
               time: 1
               unit: minutes
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
