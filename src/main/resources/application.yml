@@ -56,3 +56,8 @@ management:
   endpoint:
     health:
       show-details: always
+
+performance:
+  email:
+    throttle-ms: 50
+    max-threads: 5
