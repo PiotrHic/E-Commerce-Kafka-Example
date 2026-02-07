@@ -1,4 +1,8 @@
 spring:
+
+  profiles:
+    active: dev
+
   application:
     name: Order-Event-Processing-System
 
