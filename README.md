@@ -38,6 +38,31 @@ This project demonstrates an event-driven architecture where order events are:
 - Docker
 - Docker Compose
 
+
 ### Start application
+
+```bashs
+docker-compose up --build 
+```
+
+## Public Deployment
+
+The application is deployed and publicly accessible at:
+
+**URL:** [https://e-commerce-kafka-example.onrender.com](https://e-commerce-kafka-example.onrender.com)
+
+### Testing the endpoint
+
+You can test the order event endpoint by sending a POST request:
+
 ```bash
-docker-compose up --build
+curl -X POST https://e-commerce-kafka-example.onrender.com/api/orders/events \
+  -H "Content-Type: application/json" \
+  -d '{
+        "shipmentNumber": "12345",
+        "recipientEmail": "test@example.com",
+        "recipientCountryCode": "US",
+        "senderCountryCode": "PL",
+        "statusCode": 10
+      }'
+
