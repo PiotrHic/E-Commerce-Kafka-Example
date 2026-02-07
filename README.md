@@ -49,7 +49,9 @@ docker-compose up --build
 
 The application is deployed and publicly accessible at:
 
-**URL:** [https://e-commerce-kafka-example.onrender.com](https://e-commerce-kafka-example.onrender.com)
+**Base URL:** [https://e-commerce-kafka-example.onrender.com](https://e-commerce-kafka-example.onrender.com)
+
+**Health Check / Status:** [https://e-commerce-kafka-example.onrender.com/actuator/health](https://e-commerce-kafka-example.onrender.com/actuator/health)
 
 ### Testing the endpoint
 
