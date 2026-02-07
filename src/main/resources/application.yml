@@ -1,24 +1,19 @@
 spring:
   application:
     name: Order-Event-Processing-System
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/orderdb
+    url: jdbc:postgresql://postgres:5432/orderdb
     username: postgres
     password: postgres
-    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   kafka:
-    bootstrap-servers: localhost:9092
-
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
+    bootstrap-servers: kafka:9092
     consumer:
       group-id: order-event-group
       auto-offset-reset: earliest
@@ -26,7 +21,14 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
-        spring.json.value.default.type: org.example.ordereventprocessingsystem.domain.OrderEvent
+        spring.json.value.default.type: org.example.ecommercekafkaexample.domain.OrderEvent
+        spring:
+          kafka:
+            consumer:
+              enable-auto-retry: true
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 server:
   port: 8010
@@ -45,7 +47,7 @@ bucket4j:
 
 logging:
   level:
-    root: INFO
+
     org.springframework.web: DEBUG
 
 management:
