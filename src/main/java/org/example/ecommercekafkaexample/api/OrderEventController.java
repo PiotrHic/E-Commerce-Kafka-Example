@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("/api/orders")
 public class OrderEventController {
 
@@ -24,7 +25,7 @@ public class OrderEventController {
 
     @PostMapping("/events")
     public ResponseEntity<Void> receiveOrderEvent(@RequestBody @Valid OrderEvent event) {
-
+        System.out.println("➡️ HTTP RECEIVED: " + event);
         AuditEventEntity audit = new AuditEventEntity (
                 event.getShipmentNumber(),
                 event.getRecipientEmail(),
