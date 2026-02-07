@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  order-app:
+    build: .
+    ports:
+      - "80:80"  # port produkcyjny
+    environment:
+      DB_HOST: postgres-host
+      DB_USER: postgres
+      DB_PASSWORD: postgres-pass
+      KAFKA_HOST: kafka-host

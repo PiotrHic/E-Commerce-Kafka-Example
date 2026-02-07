@@ -1,0 +1,69 @@
+spring:
+
+  profiles:
+    active: dev
+
+  application:
+    name: Order-Event-Processing-System
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/orderdb
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: order-event-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: org.example.ecommercekafkaexample.domain.OrderEvent
+        spring:
+          kafka:
+            consumer:
+              enable-auto-retry: true
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+server:
+  port: 8010
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: orderEventLimiter
+      url: /api/orders/events
+      filter-method: servlet
+      rate-limits:
+        - bandwidths:
+            - capacity: 100
+              time: 1
+              unit: minutes
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics
+  endpoint:
+    health:
+      show-details: always
+
+performance:
+  email:
+    throttle-ms: 50
+    max-threads: 5
