@@ -25,7 +25,7 @@ public class OrderEventController {
 
     @PostMapping("/events")
     public ResponseEntity<Void> receiveOrderEvent(@RequestBody @Valid OrderEvent event) {
-
+        System.out.println("➡️ HTTP RECEIVED: " + event);
         AuditEventEntity audit = new AuditEventEntity (
                 event.getShipmentNumber(),
                 event.getRecipientEmail(),

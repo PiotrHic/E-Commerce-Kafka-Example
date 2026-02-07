@@ -4,6 +4,8 @@ import org.example.ecommercekafkaexample.domain.OrderEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.ExecutionException;
+
 @Service
 public class OrderEventProducer {
 
@@ -14,6 +16,7 @@ public class OrderEventProducer {
     }
 
     public void send(OrderEvent event) {
+        System.out.println("➡️ KAFKA SEND: " + event);
         kafkaTemplate.send(
                 KafkaTopics.ORDER_EVENTS,
                 event.getShipmentNumber(),
