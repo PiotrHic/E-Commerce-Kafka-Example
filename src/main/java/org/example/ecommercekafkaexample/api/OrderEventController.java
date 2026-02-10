@@ -5,6 +5,7 @@ import org.example.ecommercekafkaexample.audit.AuditEventEntity;
 import org.example.ecommercekafkaexample.audit.AuditQueue;
 import org.example.ecommercekafkaexample.domain.OrderEvent;
 import org.example.ecommercekafkaexample.kafka.OrderEventProducer;
+import org.example.ecommercekafkaexample.service.OrderEventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,33 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/orders")
 public class OrderEventController {
 
-    private final AuditQueue auditQueue;
-    private final OrderEventProducer producer;
+    private final OrderEventService orderEventService;
 
-    public OrderEventController(AuditQueue auditQueue, OrderEventProducer producer) {
-        this.auditQueue = auditQueue;
-        this.producer = producer;
+    public OrderEventController(OrderEventService orderEventService) {
+        this.orderEventService = orderEventService;
     }
 
     @PostMapping("/events")
-    public ResponseEntity<Void> receiveOrderEvent(@RequestBody @Valid OrderEvent event) {
-        System.out.println("➡️ HTTP RECEIVED: " + event);
-        AuditEventEntity audit = new AuditEventEntity (
-                event.getShipmentNumber(),
-                event.getRecipientEmail(),
-                event.getRecipientCountryCode(),
-                event.getSenderCountryCode(),
-                event.getStatusCode()
-        );
+    public ResponseEntity<String> receiveOrderEvent(@RequestBody @Valid OrderEvent event) {
+        System.out.println ("➡️ HTTP RECEIVED: " + event);
 
-        boolean accepted = auditQueue.offer(audit);
-
-        if (!accepted) {
-            System.err.println("Audit queue full – dropping event");
+        boolean saved = orderEventService.offerAudit ( event );
+        if (!saved) {
+            return ResponseEntity.status (500)
+                    .body ( "❌ Event was not saved to DB or queue is full" );
         }
 
-        producer.send(event);
-
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.accepted()
+                .body("✅ Event accepted and saved to DB");
     }
 }

@@ -1,11 +1,13 @@
 package org.example.ecommercekafkaexample.audit;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "audit_events")
+@Getter
 public class AuditEventEntity {
 
     @Id
