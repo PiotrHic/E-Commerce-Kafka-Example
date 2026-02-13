@@ -22,6 +22,8 @@ public class MockEmailService implements EmailService {
                     "[EMAIL MOCK] shipment=%s, email=%s, status=%d%n",
                     notification.shipmentNumber(),
                     notification.recipientEmail(),
+                    notification.recipientCountryCode(),
+                    notification.senderCountryCode(),
                     notification.statusCode()
             );
 
